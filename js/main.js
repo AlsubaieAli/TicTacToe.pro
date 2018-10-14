@@ -44,8 +44,8 @@ function winningCheck() {
 function checkFor(arr) {
 	var completeRow =
 		(arr.includes("00") && arr.includes("01") && arr.includes("02")) ||
-		(arr.includes("00") && arr.includes("01") && arr.includes("02")) ||
-		(arr.includes("00") && arr.includes("01") && arr.includes("02"));
+		(arr.includes("10") && arr.includes("11") && arr.includes("12")) ||
+		(arr.includes("20") && arr.includes("21") && arr.includes("22"));
 	var completeColumn =
 		(arr.includes("00") && arr.includes("10") && arr.includes("20")) ||
 		(arr.includes("01") && arr.includes("11") && arr.includes("21")) ||
