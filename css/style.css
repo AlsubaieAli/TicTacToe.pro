@@ -54,7 +54,8 @@ header h1 {
 	border-radius: 5px;
 	display: flex;
 	justify-content: center;
-  align-items: center;
+	align-items: center;
+	font-size: 100px;
   
   transition: background-color 0.5s;
 }
@@ -65,14 +66,16 @@ header h1 {
 
 
 /* X & O */
-.o {
-	width: 100px;
+.o:after {
+	content: "O";
+	/* width: 100px;
 	height: 100px;
 	border-radius: 50%;
-	border: 10px solid darkblue;
+	border: 10px solid darkblue; */
 }
-.x {
-	width: 100px;
+.x:after {
+	content: "X";
+	/* width: 100px;
 	height: 100px;
 	background-color: darkred;
 	-webkit-clip-path: polygon(
@@ -102,7 +105,7 @@ header h1 {
 		100% 10%,
 		90% 0,
 		50% 40%
-	);
+	); */
 }
 
 /* Statistics */
