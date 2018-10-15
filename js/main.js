@@ -14,7 +14,6 @@ var $tiles;
 // Variables to hold plays
 var oArr = [],
 	xArr = [];
-
 // ---- Functions ---- //
 // Load main page
 function loadApp() {
@@ -23,12 +22,8 @@ function loadApp() {
 	// Generate elements
 	var miniContainer = $("<div/>").addClass("mini-container");
 	var p = $("<p/>").text("You can write your names if you wnat");
-	var input1 = $("<input>")
-		.attr("placeholder", "Player 1")
-		.on("keyup", getNames);
-	var input2 = $("<input>")
-		.attr("placeholder", "Player 2")
-		.on("keyup", getNames);
+	var input1 = $("<input>").attr("placeholder", "Player 1").on("input", getNames);
+	var input2 = $("<input>").attr("placeholder", "Player 2").on("input", getNames);
 	var btn = $("<button/>")
 		.text("Play")
 		.click(gameInit);
@@ -124,12 +119,8 @@ function checkForMatch() {
 }
 
 // Test if all elements are match for X or O
-function isO(currentVal) {
-	return $("#" + currentVal).text() === "O";
-}
-function isX(currentVal) {
-	return $("#" + currentVal).text() === "X";
-}
+function isO(currentVal) { return $("#" + currentVal).text() === "O"; }
+function isX(currentVal) { return $("#" + currentVal).text() === "X"; }
 
 // Get patterns function: it loops through the grid to identify the winning patterns
 function getPatterns() {
@@ -138,8 +129,7 @@ function getPatterns() {
 		cross1 = [],
 		cross2 = [];
 	for (let i = 0; i < rowSize; i++) {
-		var aRow = [],
-			aCol = [];
+		var aRow = [], aCol = [];
 		for (var j = 0; j < rowSize; j++) {
 			aRow.push("" + i + j);
 			aCol.push("" + j + i);
