@@ -107,19 +107,6 @@ h2{
 	border: 5px solid white;
 }
 
-.board-size-3{
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(3, 1fr);
-}
-.board-size-4{
-	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: repeat(4, 1fr);
-}
-.board-size-5{
-	grid-template-columns: repeat(5, 1fr);
-	grid-template-rows: repeat(5, 1fr);
-}
-
 /* Tiles */
 .tile {
 	/* width: 100px; */
@@ -193,17 +180,5 @@ h2{
 @media only screen and (max-width: 500px) {
 	.tile {
 		min-height: 100px;
-	}
-	.x{
-		width: 50px;
-		height: 50px;
-	}
-	.o{
-		width: 50px;
-		height: 50px;
-		border: 7px solid darkblue;
-	}
-	.grid-2{
-		grid-template-columns: 1fr;
 	}
 }
