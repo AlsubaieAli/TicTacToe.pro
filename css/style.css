@@ -17,6 +17,15 @@ body {
 .container {
 	padding: 20px;
 }
+.mini-container{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.mini-container input, .mini-container p{
+	margin: 10px 0;
+}
+
 
 /* Header */
 header {
@@ -30,6 +39,60 @@ header h1 {
 	color: white;
 }
 
+h2{
+	margin: 10px auto;
+	width: 70%;
+	text-align: center;
+	margin-bottom: 50px;
+	border-bottom: 3px solid rgba(71, 71, 71, 0.082);
+}
+
+
+.grid-2{
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 20px;
+}
+.grid-center{
+	text-align: center;
+}
+
+.input-label{
+	/* width: 70%; */
+	height: 50px;
+	position: relative;
+
+}
+.player label{
+	z-index: 1;
+	/* color: white; */
+	/* width: 10px; */
+	padding: 20px 0;
+	width: 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#player-name1:hover + label{
+	color: white;
+	top: 0;
+	left: 0;
+}
+
+.player input{
+	margin: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 50px;
+	width: 100%;
+	border-radius: 25px;
+	border: 2px solid lightblue;
+	/* z-index: -1; */
+}
+
 /* Top Information */
 
 /* Board */
@@ -38,12 +101,23 @@ header h1 {
 	padding: 10px;
 	max-width: 600px;
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(3, 1fr);
 	grid-gap: 10px;
 	background-color: darkgray;
 	border-radius: 10px;
 	border: 5px solid white;
+}
+
+.board-size-3{
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+}
+.board-size-4{
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: repeat(4, 1fr);
+}
+.board-size-5{
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(5, 1fr);
 }
 
 /* Tiles */
@@ -57,7 +131,10 @@ header h1 {
 	align-items: center;
 	font-size: 100px;
   
-  transition: background-color 0.5s;
+  transition: background-color 0.3s;
+}
+.tile:hover {
+	background-color: rgb(230, 230, 230);
 }
 /* Winning tiles */
 .winning-tile{
@@ -66,16 +143,16 @@ header h1 {
 
 
 /* X & O */
-.o:after {
-	content: "O";
-	/* width: 100px;
+.o {
+	/* content: "O"; */
+	width: 100px;
 	height: 100px;
 	border-radius: 50%;
-	border: 10px solid darkblue; */
+	border: 10px solid darkblue;
 }
-.x:after {
-	content: "X";
-	/* width: 100px;
+.x {
+	/* content: "X"; */
+	width: 100px;
 	height: 100px;
 	background-color: darkred;
 	-webkit-clip-path: polygon(
@@ -105,7 +182,7 @@ header h1 {
 		100% 10%,
 		90% 0,
 		50% 40%
-	); */
+	);
 }
 
 /* Statistics */
@@ -116,5 +193,17 @@ header h1 {
 @media only screen and (max-width: 500px) {
 	.tile {
 		min-height: 100px;
+	}
+	.x{
+		width: 50px;
+		height: 50px;
+	}
+	.o{
+		width: 50px;
+		height: 50px;
+		border: 7px solid darkblue;
+	}
+	.grid-2{
+		grid-template-columns: 1fr;
 	}
 }
