@@ -27,6 +27,8 @@ button:focus {
 }
 .mini-container{
 	margin: auto;
+	padding: 10px;
+	text-align: center;
 	border: 2px solid white;
 	display: flex;
 	flex-direction: column;
@@ -120,6 +122,8 @@ button:hover:after{
 	border: 3px solid white;
 	border-radius: 50px;
 	background-color: rgba(30, 143, 255, 0.5);
+
+	transition: background-color 0.5s;
 }
 button:hover{
 	cursor: pointer;
@@ -189,7 +193,13 @@ button:hover{
 
 /* Media Query */
 @media only screen and (max-width: 500px) {
-	.tile {
+	.tile, .tile-nohover{
 		min-height: 100px;
+		font-size: 70px;
 	}
+
+	.mini-container{
+		width: 100%;
+	}
+	
 }

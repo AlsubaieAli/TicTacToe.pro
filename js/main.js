@@ -1,3 +1,5 @@
+// TODO: Draw, Count, AI
+
 // ---- Variables ---- //
 // Main container
 var $container = $(".container");
@@ -24,9 +26,11 @@ var oArr = [],
 // ---- Functions ---- //
 // Load main page
 function loadApp() {
+	$container.hide();
+	$container.empty().fadeIn("slow");
+
 	// Heading
 	var h2 = $("<h2/>").text("Let's play some pro TicTacTo");
-	$container.append(h2);
 	// Generate elements and add them in a container
 	var miniContainer = $("<div/>").addClass("mini-container");
 	// Paragraph
@@ -34,22 +38,33 @@ function loadApp() {
 	miniContainer.append(p);
 
 	// Get preferences
-	// TODO: Div for game play selection
+	// Div for game play selection
 	var div = $("<div/>").addClass("players");
-	var radio = $("<input type='radio' id='pvp' checked value='p'>").click(changePlayer);
+	var radio = $("<input type='radio' id='pvp' checked value='p'>").click(
+		changePlayer
+	);
 	div.append(radio);
-	var label = $("<label>").attr("for", "pvp").text("Player vs. Player");
+	var label = $("<label>")
+		.attr("for", "pvp")
+		.text("Player vs. Player");
 	div.append(label);
 	div.append($("<br>"));
-	var radio = $("<input type='radio' id='pvai' value='ai'>").click(changePlayer);
+	var radio = $("<input type='radio' id='pvai' value='ai'>").click(
+		changePlayer
+	);
 	div.append(radio);
-	var label = $("<label>").attr("for", "pvai").text("Player vs. AI");
+	var label = $("<label>")
+		.attr("for", "pvai")
+		.text("Player vs. AI");
 	div.append(label);
 	miniContainer.append(div);
-	
+
 	div = $("<div/>").addClass("players");
 	// Input for names
-	var input = $("<input type='text' placeholder='Player 1'>").on("input", getNames);
+	var input = $("<input type='text' placeholder='Player 1'>").on(
+		"input",
+		getNames
+	);
 	div.append(input);
 	div.append($("<br>"));
 	input = $("<input type='text' placeholder='Player 2'>").on("input", getNames);
@@ -57,47 +72,59 @@ function loadApp() {
 
 	miniContainer.append(div);
 
-	// Grid preference 
+	// Grid preference
 	var gridPreference = $("<div/>").addClass("grid-area");
 	label = $("<label/>").text("Grid Area: ");
 	gridPreference.append(label);
-	radio = $("<input type='radio' id='grid3' checked value='3'>").click(setDifficulty);
+	radio = $("<input type='radio' id='grid3' checked value='3'>").click(
+		setDifficulty
+	);
 	gridPreference.append(radio);
-	label = $("<label/>").attr("for", "grid3").text("3x3");
+	label = $("<label/>")
+		.attr("for", "grid3")
+		.text("3x3");
 	gridPreference.append(label);
 	radio = $("<input type='radio' id='grid4' value='4'>").click(setDifficulty);
 	gridPreference.append(radio);
-	label = $("<label/>").attr("for", "grid4").text("4x4");
+	label = $("<label/>")
+		.attr("for", "grid4")
+		.text("4x4");
 	gridPreference.append(label);
 	radio = $("<input type='radio' id='grid5' value='5'>").click(setDifficulty);
 	gridPreference.append(radio);
-	label = $("<label/>").attr("for", "grid5").text("5x5");
+	label = $("<label/>")
+		.attr("for", "grid5")
+		.text("5x5");
 	gridPreference.append(label);
 	miniContainer.append(gridPreference);
 
-	var btn = $("<button/>").text("Play").click(gameInit);
+	var btn = $("<button/>")
+		.text(" Play")
+		.addClass("fas fa-th")
+		.click(gameInit);
 	miniContainer.append(btn);
-	// Add mini container to the main container
+
+	// Add to the main container
+	$container.append(h2);
 	$container.append(miniContainer);
 }
 
 // Change players function
-function changePlayer(e){
+function changePlayer(e) {
 	var radios = $(".players input[type=radio]");
-	for(r of radios) r.checked = false;
+	for (r of radios) r.checked = false;
 	this.checked = true;
-	if(this.value === 'p') {
+	if (this.value === "p") {
 		againstAI = false;
 		$(".players input[placeholder='Player 2']").slideDown("fast");
-	}
-	else {
+	} else {
 		againstAI = true;
 		$(".players input[placeholder='Player 2']").slideUp("fast");
 	}
 }
 
 // Set difficulty level based on selection
-function setDifficulty(e){
+function setDifficulty(e) {
 	var btns = $(".grid-area input");
 	for (i of btns) i.checked = false;
 	this.checked = true;
@@ -116,10 +143,11 @@ function getNames(e) {
 // Initialize the game
 function gameInit(e) {
 	gameOver = false;
+	isP1Turn = true;
 	$(".score-container").remove();
 	if (players.p1 === "") players.p1 = "P1";
 	if (players.p2 === "" && !againstAI) players.p2 = "P2";
-	if(againstAI) players.p2 = "AI";
+	if (againstAI) players.p2 = "AI";
 	// Remove content with animation
 	$container.fadeOut("fast");
 	setTimeout(() => {
@@ -130,16 +158,26 @@ function gameInit(e) {
 
 // Start the game
 function startGame(e) {
-
 	var scoreContainer = $("<div/>").addClass("score-container");
 
-	var p = $("<p/>").text(players.p1+" ").append($("<span class='O'>O</span>"));
+	var p = $("<p/>")
+		.text(players.p1 + " ")
+		.append($("<span class='O'>O</span>"));
 	scoreContainer.append(p);
 	var div = $("<div/>").text("0 - 0");
 	scoreContainer.append(div);
-	p = $("<p/>").text(players.p2+" ").append($("<span class='X'>X</span>"));
+	p = $("<p/>")
+		.text(players.p2 + " ")
+		.append($("<span class='X'>X</span>"));
 	scoreContainer.append(p);
-	$container.before(scoreContainer);
+	$container.prepend(scoreContainer);
+
+	var homeBtn = $("<button/>")
+		.text("Home ")
+		.append($("<i/>").addClass("fas fa-home no-font	"))
+		.css("margin", "0")
+		.click(goHome);
+	$container.prepend(homeBtn);
 	$($(".score-container p")[0]).addClass("current-turn");
 	// console.log($($(".score-container p")[0]).addClass("a"));
 
@@ -165,7 +203,11 @@ function startGame(e) {
 		$container.fadeIn("fast");
 	}, 500);
 
-	var replayBtn = $("<button/>").text("Replay").css({"display": "block", "margin":"auto"}).addClass("replay").click(reset);
+	var replayBtn = $("<button/>")
+		.text("Replay")
+		.css({ display: "block", margin: "auto" })
+		.addClass("replay")
+		.click(reset);
 	replayBtn.hide();
 	$container.append(replayBtn);
 	// TODO: Stats
@@ -179,18 +221,25 @@ function tileClicked(e) {
 	$(this).off("click");
 	// Push the play accordingly to the proper array
 	isP1Turn ? oArr.push(this.id) : xArr.push(this.id);
-	$(this).text(toPlay).addClass(toPlay);
+	$(this)
+		.text(toPlay)
+		.addClass(toPlay);
 	$(".score-container div").className = toPlay;
 	// Check for match
 	checkForMatch();
 	// Switch turns
-	if(!gameOver) switchTurns();
+	switchTurns();
 }
 
-function switchTurns(){
-	if(gameOver) return;
+function switchTurns() {
+	if (gameOver) return;
 	isP1Turn = !isP1Turn;
 	$(".score-container p").toggleClass("current-turn");
+}
+
+function goHome() {
+	$container.fadeOut("slow");
+	setTimeout(loadApp, 500);
 }
 
 // Check for match function
@@ -203,12 +252,10 @@ function checkForMatch() {
 	for (let i = 0; i < patterns.length; i++) {
 		for (let j = 0; j < patterns[i].length; j++) {
 			if (patterns[i][j].every(isO)) {
-				// TODO: Call winning and return
 				console.log("It is all O");
 				didWin(patterns[i][j]);
 				return;
 			} else if (patterns[i][j].every(isX)) {
-				// TODO: Call winning and return
 				console.log("It is all X");
 				didWin(patterns[i][j]);
 				return;
@@ -218,32 +265,39 @@ function checkForMatch() {
 }
 
 // Test if all elements are match for X or O
-function isO(currentVal) { return $("#" + currentVal).text() === "O"; }
-function isX(currentVal) { return $("#" + currentVal).text() === "X"; }
-
-function togglePattern(id) {
-	winningInterval.push(setInterval(()=>{$("#"+id).toggleClass("winning-tile")}, 500));
+function isO(currentVal) {
+	return $("#" + currentVal).text() === "O";
+}
+function isX(currentVal) {
+	return $("#" + currentVal).text() === "X";
 }
 
-function didWin(winningPattern){
+function togglePattern(id) {
+	winningInterval.push(
+		setInterval(() => {
+			$("#" + id).toggleClass("winning-tile");
+		}, 500)
+	);
+}
+
+function didWin(winningPattern) {
 	gameOver = true;
-	for(var t of $tiles) {
+	for (var t of $tiles) {
 		$(t).off("click");
 		$(t).addClass("tile-nohover");
 		$(t).removeClass("tile");
 	}
-	for(id of winningPattern) togglePattern(id);
-	setTimeout(()=>{
+	for (id of winningPattern) togglePattern(id);
+	setTimeout(() => {
 		$(".replay").show("slow");
-	},1000);
+	}, 1000);
 }
 
-function reset(){
+function reset() {
 	gameInit();
-	for(interval of winningInterval){
+	for (interval of winningInterval) {
 		clearInterval(interval);
 	}
-
 }
 
 // Get patterns function: it loops through the grid to identify the winning patterns
@@ -253,7 +307,8 @@ function getPatterns() {
 		cross1 = [],
 		cross2 = [];
 	for (let i = 0; i < rowSize; i++) {
-		var aRow = [], aCol = [];
+		var aRow = [],
+			aCol = [];
 		for (var j = 0; j < rowSize; j++) {
 			aRow.push("" + i + j);
 			aCol.push("" + j + i);
