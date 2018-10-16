@@ -1,107 +1,83 @@
 // TODO: Draw, Count, AI
 
 // ---- Variables ---- //
-// Main container
-var $container = $(".container");
-// Players names
-var players = { p1: "", p2: "" };
-// Winning Intervals
-var winningInterval = [];
-// Which turn
-var isP1Turn = true;
-// Game over
-var gameOver = false;
-var againstAI = false;
-// Row size (Row size of 3 means 3*3 grid)
-var rowSize = 3;
-// Board variable
-var $board;
-// Squares in the grid
-var $tiles;
-// Replay button
-var replayBtn;
+
+var $container = $(".container"); // Main container
+var $board; // Game Board
+var $tiles; // Squares on the board
+var players = { p1: "", p2: "" }; // Players names
+var rowSize = 3;// Row size (Row size of 3 means 3*3 grid)
+var winningInterval = []; // Winning Intervals (to reset intervals)
+var replayBtn; // Replay button
+// Flags
+var isP1Turn = true; // To track turns
+var gameOver = false; // Game over
+var againstAI = false; // Against AI or Player
 // Variables to hold plays
 var oArr = [],
 	xArr = [];
+
 // ---- Functions ---- //
+
+// ** MAIN VIEW ** //
 // Load main page
 function loadApp() {
+	// fade container in and clear it
 	$container.hide();
 	$container.empty().fadeIn("slow");
 
 	// Heading
 	var h2 = $("<h2/>").text("Let's play some pro TicTacTo");
-	// Generate elements and add them in a container
+	// Container to hold elements
 	var miniContainer = $("<div/>").addClass("mini-container");
 	// Paragraph
 	var p = $("<p/>").text("You can write your name(s) if you wnat");
 	miniContainer.append(p);
 
-	// Get preferences
-	// Div for game play selection
+	// Div to hold user preferences
 	var div = $("<div/>").addClass("players");
-	var radio = $("<input type='radio' id='pvp' checked value='p'>").click(
-		changePlayer
-	);
+	// Radio Selections and Labels
+	var radio = $("<input type='radio' id='pvp' checked value='p'>").click(playAgainst);
 	div.append(radio);
-	var label = $("<label>")
-		.attr("for", "pvp")
-		.text("Player vs. Player");
+	var label = $("<label>").attr("for", "pvp").text("Player vs. Player");
 	div.append(label);
-	div.append($("<br>"));
-	var radio = $("<input type='radio' id='pvai' value='ai'>").click(
-		changePlayer
-	);
+	div.append($("<br>")); // Add break
+	var radio = $("<input type='radio' id='pvai' value='ai'>").click(playAgainst);
 	div.append(radio);
-	var label = $("<label>")
-		.attr("for", "pvai")
-		.text("Player vs. AI");
+	var label = $("<label>").attr("for", "pvai").text("Player vs. AI");
 	div.append(label);
 	miniContainer.append(div);
 
+	// New div to hold player name inputs
 	div = $("<div/>").addClass("players");
 	// Input for names
-	var input = $("<input type='text' placeholder='Player 1'>").on(
-		"input",
-		getNames
-	);
+	var input = $("<input type='text' placeholder='Player 1'>").on("input",getNames);
 	div.append(input);
 	div.append($("<br>"));
 	input = $("<input type='text' placeholder='Player 2'>").on("input", getNames);
 	div.append(input);
-
 	miniContainer.append(div);
 
 	// Grid preference
-	var gridPreference = $("<div/>").addClass("grid-area");
-	label = $("<label/>").text("Grid Area: ");
+	var gridPreference = $("<div/>").addClass("difficulty");
+	label = $("<label/>").text("Difficulty: ");
 	gridPreference.append(label);
-	radio = $("<input type='radio' id='grid3' checked value='3'>").click(
-		setDifficulty
-	);
+	radio = $("<input type='radio' id='grid3' checked value='3'>").click(setDifficulty);
 	gridPreference.append(radio);
-	label = $("<label/>")
-		.attr("for", "grid3")
-		.text("3x3");
+	label = $("<label/>").attr("for", "grid3").text("3x3");
 	gridPreference.append(label);
 	radio = $("<input type='radio' id='grid4' value='4'>").click(setDifficulty);
 	gridPreference.append(radio);
-	label = $("<label/>")
-		.attr("for", "grid4")
-		.text("4x4");
+	label = $("<label/>").attr("for", "grid4").text("4x4");
 	gridPreference.append(label);
 	radio = $("<input type='radio' id='grid5' value='5'>").click(setDifficulty);
 	gridPreference.append(radio);
-	label = $("<label/>")
-		.attr("for", "grid5")
-		.text("5x5");
+	label = $("<label/>").attr("for", "grid5").text("5x5");
 	gridPreference.append(label);
 	miniContainer.append(gridPreference);
 
-	var btn = $("<button/>")
-		.text(" Play")
-		.addClass("fas fa-th")
-		.click(gameInit);
+	// Play button
+	var btn = $("<button/>").text(" Play").addClass("fas fa-th").click(gameInit);
 	miniContainer.append(btn);
 
 	// Add to the main container
@@ -109,11 +85,14 @@ function loadApp() {
 	$container.append(miniContainer);
 }
 
-// Change players function
-function changePlayer(e) {
-	var radios = $(".players input[type=radio]");
-	for (r of radios) r.checked = false;
+// Change opponent function
+function playAgainst(e) {
+	// Get and reset radio buttons
+	var radioes = $(".players input[type=radio]");
+	for (r of radioes) r.checked = false;
+	// Mark the clicked button
 	this.checked = true;
+	// Deside wether the second input field is needed
 	if (this.value === "p") {
 		againstAI = false;
 		$(".players input[placeholder='Player 2']").slideDown("fast");
@@ -125,9 +104,12 @@ function changePlayer(e) {
 
 // Set difficulty level based on selection
 function setDifficulty(e) {
-	var btns = $(".grid-area input");
+	// Get and reset radio buttons
+	var btns = $(".difficulty input");
 	for (i of btns) i.checked = false;
+	// Mark the clicked button
 	this.checked = true;
+	// Set the row size for the grid
 	rowSize = this.value;
 }
 
@@ -139,6 +121,10 @@ function getNames(e) {
 	if (player === "1") players.p1 = this.value;
 	if (player === "2") players.p2 = this.value;
 }
+
+// ** TRANSIOTIONING ** //
+
+// TODO: Organize
 
 // Initialize the game
 function gameInit(e) {
@@ -204,12 +190,12 @@ function startGame(e) {
 	}, 500);
 
 	var replayBtn = $("<button/>")
-		.text("Replay")
-		.css({ display: "block", margin: "auto" })
-		.addClass("replay")
+		.text(" Replay ")
+		.css({ display: "block", margin: "auto", float: "right"}).addClass("replay")
+		.append($("<i/>").addClass("fas fa-redo"))
 		.click(reset);
 	replayBtn.hide();
-	$container.append(replayBtn);
+	$container.prepend(replayBtn);
 	// TODO: Stats
 }
 
@@ -238,6 +224,7 @@ function switchTurns() {
 }
 
 function goHome() {
+	reset();
 	$container.fadeOut("slow");
 	setTimeout(loadApp, 500);
 }

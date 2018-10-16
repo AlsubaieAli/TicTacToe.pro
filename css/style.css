@@ -23,7 +23,7 @@ button:focus {
     outline: none;
 }
 .container {
-	padding: 20px;
+	padding: 10px 20px;
 }
 .mini-container{
 	margin: auto;
@@ -46,14 +46,15 @@ button:focus {
 }
 .score-container{
 	margin-top: 15px;
-	padding: 10px;
+	padding: 0 10px;
 	display: grid;
 	grid-template-columns: 1fr 2fr 1fr;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-end;
 	width: 100%;
 }
 .score-container p{
+	margin: 0;
 	font-weight: bold;
 	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
@@ -118,7 +119,7 @@ button:hover:after{
 }
 
 .current-turn{
-	padding: 10px;
+	padding: 5px;
 	border: 3px solid white;
 	border-radius: 50px;
 	background-color: rgba(30, 143, 255, 0.5);
@@ -144,7 +145,8 @@ button:hover{
 
 /* Board */
 .board {
-	margin: 20px auto;
+	margin: 10px auto;
+	margin-top: 0;
 	padding: 10px;
 	max-width: 600px;
 	display: grid;
