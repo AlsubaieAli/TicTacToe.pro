@@ -1,17 +1,17 @@
 // TODO: Draw, Count, AI
 
 // ---- Variables ---- //
-
 var $container = $(".container"); // Main container
 var $board; // Game Board
 var $tiles; // Squares on the board
-var players = { p1: "", p2: "" }; // Players names
+var players = { p1: {name: "", score: 0}, p2: {name: "", score: 0} }; // Players names
 var rowSize = 3;// Row size (Row size of 3 means 3*3 grid)
 var winningInterval = []; // Winning Intervals (to reset intervals)
 var replayBtn; // Replay button
 // Flags
 var isP1Turn = true; // To track turns
 var gameOver = false; // Game over
+var isDraw = false;
 var againstAI = false; // Against AI or Player
 // Variables to hold plays
 var oArr = [],
@@ -23,11 +23,13 @@ var oArr = [],
 // Load main page
 function loadApp() {
 	// fade container in and clear it
+	players.p1.score = 0;
+	players.p2.score = 0;
 	$container.hide();
 	$container.empty().fadeIn("slow");
 
 	// Heading
-	var h2 = $("<h2/>").text("Let's play some pro TicTacTo");
+	var h2 = $("<h2/>").text("Let's play some pro Tic Tac Toe");
 	// Container to hold elements
 	var miniContainer = $("<div/>").addClass("mini-container");
 	// Paragraph
@@ -118,22 +120,23 @@ function getNames(e) {
 	// Get the last character of the placeholder
 	var player = this.placeholder.charAt(this.placeholder.length - 1);
 	// Set the names properly
-	if (player === "1") players.p1 = this.value;
-	if (player === "2") players.p2 = this.value;
+	if (player === "1") players.p1.name = this.value;
+	if (player === "2") players.p2.name = this.value;
 }
 
 // ** TRANSIOTIONING ** //
 
-// TODO: Organize
-
 // Initialize the game
 function gameInit(e) {
+	// Reset flags and variables
 	gameOver = false;
+	isDraw = false;
 	isP1Turn = true;
+	xArr = [], oArr = [];
 	$(".score-container").remove();
-	if (players.p1 === "") players.p1 = "P1";
-	if (players.p2 === "" && !againstAI) players.p2 = "P2";
-	if (againstAI) players.p2 = "AI";
+	if (players.p1.name === "") players.p1.name = "P1";
+	if (players.p2.name === "" && !againstAI) players.p2.name = "P2";
+	else if (againstAI) players.p2.name = "AI";
 	// Remove content with animation
 	$container.fadeOut("fast");
 	setTimeout(() => {
@@ -147,13 +150,16 @@ function startGame(e) {
 	var scoreContainer = $("<div/>").addClass("score-container");
 
 	var p = $("<p/>")
-		.text(players.p1 + " ")
+		.text(players.p1.name + " ")
 		.append($("<span class='O'>O</span>"));
 	scoreContainer.append(p);
-	var div = $("<div/>").text("0 - 0");
+	var div = $("<div/>");
+	if(localStorage.getItem("scores") === null)
+		localStorage.setItem("scores", players.p2.score+" - "+players.p2.score);
+	div.text(players.p1.score + " - " + players.p2.score);
 	scoreContainer.append(div);
 	p = $("<p/>")
-		.text(players.p2 + " ")
+		.text(players.p2.name + " ")
 		.append($("<span class='X'>X</span>"));
 	scoreContainer.append(p);
 	$container.prepend(scoreContainer);
@@ -196,7 +202,6 @@ function startGame(e) {
 		.click(reset);
 	replayBtn.hide();
 	$container.prepend(replayBtn);
-	// TODO: Stats
 }
 
 // On square click
@@ -249,6 +254,12 @@ function checkForMatch() {
 			}
 		}
 	}
+	if(oArr.length + xArr.length === rowSize*rowSize){
+		isDraw = true;
+		gameOver = true;
+		console.log("It is a draw");
+		showReplayBtn();
+	}
 }
 
 // Test if all elements are match for X or O
@@ -275,9 +286,14 @@ function didWin(winningPattern) {
 		$(t).removeClass("tile");
 	}
 	for (id of winningPattern) togglePattern(id);
+	(isP1Turn) ? players.p1.score++ : players.p2.score++;
+	showReplayBtn();
+}
+
+function showReplayBtn(){
 	setTimeout(() => {
 		$(".replay").show("slow");
-	}, 1000);
+	}, 800);
 }
 
 function reset() {

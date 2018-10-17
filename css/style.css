@@ -66,11 +66,12 @@ button:focus {
 /* Header */
 header {
 	margin: 0;
-	padding: 20px 0;
+	padding: 10px 0;
 	background-color: dodgerblue;
 }
 header h1 {
 	margin: 0;
+	/* padding: 5px 0; */
 	text-align: center;
 	color: white;
 	font-family: 'Chakra Petch', sans-serif;
