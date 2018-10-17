@@ -252,33 +252,86 @@ function palyOn(tileID) {
 
 function AITurn() {
 	var patterns = getPatterns();
-	for (let i = 0; i < patterns.length; i++) {
+	var emptyTile = [],
+		allEmpty = [],
+		count = 0;
+	allPatterns: for (let i = 0; i < patterns.length; i++) {
 		// to count player's moves
 		for (let j = 0; j < patterns[i].length; j++) {
 			// If player is winning - interrupt
 			// if(oArr.length < 3) return;
 			// debugger;
-			var emptyTile = [];
-			var count = 0;
+			emptyTile = [];
+			count = 0;
+			if (!patterns[i][j].every(isFilled)) {
+				for (let o = 0; o < patterns[i][j].length; o++) {
+					if ($("#" + patterns[i][j][o]).text() === "X") {
+						count++;
+					} else if ($("#" + patterns[i][j][o]).text() === "") {
+						allEmpty.push(patterns[i][j][o]);
+						emptyTile.push(patterns[i][j][o]);
+					}
+					if (count > 1) {
+						for (let k = 0; k < patterns[i][j].length; k++) {
+							if ($("#" + patterns[i][j][k]).text() === "") {
+								allEmpty.push(patterns[i][j][k]);
+								emptyTile.push(patterns[i][j][k]);
+							}
+						}
+						break allPatterns;
+					}
+				}
+			}
+		}
+	}
+	console.log(count);
+	if (count > 1) {
+		console.log("Winning");
+		console.log(emptyTile, count);
+		palyOn(emptyTile.shift());
+		return;
+	}
+	
+	allPatterns1: for (let i = 0; i < patterns.length; i++) {
+		// to count player's moves
+		for (let j = 0; j < patterns[i].length; j++) {
+			// If player is winning - interrupt
+			// if(oArr.length < 3) return;
+			// debugger;
+			emptyTile = [];
+			count = 0;
 			if (!patterns[i][j].every(isFilled)) {
 				for (let o = 0; o < patterns[i][j].length; o++) {
 					if ($("#" + patterns[i][j][o]).text() === "O") {
 						count++;
 					} else if ($("#" + patterns[i][j][o]).text() === "") {
+						allEmpty.push(patterns[i][j][o]);
 						emptyTile.push(patterns[i][j][o]);
 					}
-				}
-				if (count > 1) {
-					console.log("Danger")
-					palyOn(emptyTile.unshift());
-					return;
-				} else {
-					console.log("No Danger");
-					palyOn(emptyTile.pop());
-					return;
+					if (count > 1) {
+						for (let k = 0; k < patterns[i][j].length; k++) {
+							if ($("#" + patterns[i][j][k]).text() === "") {
+								allEmpty.push(patterns[i][j][k]);
+								emptyTile.push(patterns[i][j][k]);
+							}
+						}
+						break allPatterns1;
+					}
 				}
 			}
 		}
+	}
+	console.log(count);
+	if (count > 1) {
+		console.log("Danger");
+		console.log(emptyTile, count);
+		palyOn(emptyTile.shift());
+		return;
+	} else {
+		console.log("No Danger");
+		console.log(allEmpty);
+		palyOn(allEmpty.pop());
+		return;
 	}
 }
 
