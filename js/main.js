@@ -57,14 +57,14 @@ function loadApp() {
 	// New div to hold player name inputs
 	div = $("<div/>").addClass("players");
 	// Input for names
-	var input = $("<input type='text' placeholder='Player 1'>").on(
+	var input1 = $("<input type='text' placeholder='Player 1'>").on(
 		"input",
 		getNames
 	);
-	div.append(input);
+	div.append(input1);
 	div.append($("<br>"));
-	input = $("<input type='text' placeholder='Player 2'>").on("input", getNames);
-	div.append(input);
+	var input2 = $("<input type='text' placeholder='Player 2'>").on("input", getNames);
+	div.append(input2);
 	miniContainer.append(div);
 
 	// Grid preference
@@ -151,6 +151,7 @@ function gameInit(e) {
 	isDraw = false;
 	isP1Turn = true;
 	(xArr = []), (oArr = []);
+	// Remove score continer
 	$(".score-container").remove();
 	if (players.p1.name === "") players.p1.name = "P1";
 	if (players.p2.name === "" && !againstAI) players.p2.name = "P2";
