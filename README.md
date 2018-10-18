@@ -1,6 +1,6 @@
 # TIC TAC TOE pro
 ## Overview
-This is a single page application of Tic Tac Toe game. It has been developed using Javascript, HTML, and CSS for __Misk-WDI__ Course project in October 2019.
+This is a single page application of Tic Tac Toe game. It has been developed using Javascript, HTML, and CSS for __Misk-WDI__ Course project in October 2018.
 
 ## Insights
 This project helped me improve some of my coding skills. It opened my eyes to new prespectives and pushed my limits to solve challenging problems. It also gave me the chance to get used to building larger projects than the usual in an organized way using version control system.

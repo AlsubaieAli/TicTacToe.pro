@@ -25,6 +25,7 @@ function loadApp() {
 	// fade container in and clear it
 	$container.hide();
 	$container.empty().fadeIn("slow");
+	$(".links").show("slow");
 
 	// Heading
 	var h2 = $("<h2/>").text("Let's play some pro Tic Tac Toe");
@@ -162,6 +163,8 @@ function gameInit(e) {
 		$container.empty();
 		startGame();
 	}, 500);
+	
+	$(".links").hide("slow");
 }
 
 // Start the game

@@ -142,6 +142,41 @@ button:hover{
 	/* display: block; */
 }
 
+.wrapper{
+	height: 100vh;
+	position: relative;
+}
+
+footer{
+	margin: 0;
+	padding: 0 15px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+footer p{
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+footer .links{
+	float: right;
+}
+footer .links a{
+	color: black;
+	padding: 10px;
+	padding-bottom: 0;
+}
+footer .links a i{
+		-webkit-transition: transform 0.5s;
+		transition: transform 0.5s;
+
+}
+footer .links a:hover i{
+	transform: scale(1.25);
+}
+
 /* Top Information */
 
 /* Board */
