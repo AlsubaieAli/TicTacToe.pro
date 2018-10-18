@@ -6,7 +6,7 @@ This is a single page application of Tic Tac Toe game. It has been developed usi
 This project helped me improve some of my coding skills. It opened my eyes to new prespectives and pushed my limits to solve challenging problems. It also gave me the chance to get used to building larger projects than the usual in an organized way using version control system.
 
 ## Try It Out!
-![Click Here to Play the game](https://alsubaieali.github.io/TicTacToe.pro/)
+[Click Here to Play the game](https://alsubaieali.github.io/TicTacToe.pro/)
 
 ## How to play!
 It is the simple old tic tac toe we know, but with few extra features added to the game.
