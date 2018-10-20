@@ -26,6 +26,10 @@ function loadApp() {
 	$container.hide();
 	$container.empty().fadeIn("slow");
 	$(".links").show("slow");
+	// Reset preferences
+	againstAI = false;
+	rowSize = 3;
+	players.p2.name = "";
 
 	// Heading
 	var h2 = $("<h2/>").text("Let's play some pro Tic Tac Toe");
